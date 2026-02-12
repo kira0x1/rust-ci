@@ -1,11 +1,11 @@
 pipeline {
     agent {
-        docker { image 'node:24.13.0-alpine3.23' }
+        docker { image 'rustlang/rust:nightly-slim' }
     }
     stages {
         stage('Test') {
             steps {
-                sh 'node --eval "console.log(process.platform,process.env.CI)"'
+                sh 'cargo --version'
             }
         }
         stage('Build') {
