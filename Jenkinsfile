@@ -8,5 +8,11 @@ pipeline {
                 sh 'node --eval "console.log(process.platform,process.env.CI)"'
             }
         }
+        stage('Build') {
+            steps {
+                sh 'cargo build'
+                sh 'docker build -t glorptest .'
+            }
+        }
     }
 }
