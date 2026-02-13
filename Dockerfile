@@ -1,4 +1,4 @@
-FROM rust:1.67
+FROM rustlang/rust:nightly-slim
 
 WORKDIR /usr/src/rustci
 COPY . .
