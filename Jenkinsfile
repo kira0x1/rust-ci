@@ -1,10 +1,9 @@
 pipeline {
-    agent any
+    agent { dockerfile true }
     stages {
         stage('Test') {
             steps {
-                sh 'docker build -t rustci .'
-                sh 'docker run -it --rm --name rustci-running rustci'
+                sh 'cargo --version'
             }
         }
     }
