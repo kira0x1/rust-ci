@@ -7,7 +7,9 @@ pipeline {
             }
         }
         stage('Publish') {
-            sh 'docker push kira0x1/rustci-test'
+            steps {
+                sh 'docker push kira0x1/rustci-test'
+            }
         }
     }
 }
