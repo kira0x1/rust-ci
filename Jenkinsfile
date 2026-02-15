@@ -1,10 +1,13 @@
 pipeline {
-    agent { dockerfile true }
+    agent any
     stages {
-        stage('Test') {
+        stage('Build') {
             steps {
-                sh 'cargo --version'
+                sh 'docker build -t kira0x1/rustci-test .'
             }
+        }
+        stage('Publish') {
+            sh 'docker push kira0x1/rustci-test'
         }
     }
 }
