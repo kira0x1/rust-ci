@@ -1,8 +1,17 @@
-FROM rustlang/rust:nightly-slim
-
+FROM rustlang/rust:nightly-slim AS builder
 WORKDIR /usr/src/rustci
+
+COPY Cargo.toml Cargo.lock ./
+RUN mkdir src && \
+    echo "fn main() {}" > src/main.rs && \
+    cargo build --release && \
+    rm -rf src
+
 COPY . .
+RUN cargo build --release
 
-RUN cargo install --path .
+FROM debian:bookworm-slim
+RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
+COPY --from=builder /usr/src/rustci/target/release/rust-ci /usr/local/bin/
 
-CMD [ "/bin/ls", "-l" ]
+CMD ["rust-ci"]
