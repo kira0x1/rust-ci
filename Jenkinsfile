@@ -1,14 +1,25 @@
 pipeline {
     agent any
+    environment {
+        IMAGE_NAME = "kira0x1/rustci-test"
+    }
     stages {
         stage('Build') {
             steps {
-                sh 'docker build -t kira0x1/rustci-test .'
+                sh """
+                    docker build \
+                      -t ${IMAGE_NAME}:${BUILD_NUMBER} \
+                      -t ${IMAGE_NAME}:latest \
+                      .
+                """
             }
         }
-        stage('Publish') {
+        stage('Push') {
             steps {
-                sh 'docker push kira0x1/rustci-test'
+                sh """
+                    docker push ${IMAGE_NAME}:${BUILD_NUMBER}
+                    docker push ${IMAGE_NAME}:latest
+                """
             }
         }
     }
