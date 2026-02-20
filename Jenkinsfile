@@ -5,6 +5,7 @@ pipeline {
     }
     stages {
         stage('Build') {
+            agent docker
             steps {
                 sh """
                     docker build \
@@ -15,6 +16,7 @@ pipeline {
             }
         }
         stage('Push') {
+            agent docker
             steps {
                 sh """
                     docker push ${IMAGE_NAME}:${BUILD_NUMBER}
